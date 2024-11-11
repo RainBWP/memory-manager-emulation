@@ -93,3 +93,11 @@ section {
   align-items: center;
   justify-content: center;
 }
+
+table{
+  columns: 8;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  border: var(--text-color) 1px solid;
+}

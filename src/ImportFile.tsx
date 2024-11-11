@@ -14,8 +14,9 @@ const ImportFile: React.FC<ImportFileProps> = ({ onImport }) => {
     const [header, ...data] = lines;
 
     const tam_pag = parseInt(header.split(':')[1], 10);
-    const num_marcos = parseInt(header.split(':')[2], 10);
-    const num_pag = parseInt(header.split(':')[3], 10);
+    const num_pag = parseInt(header.split(':')[2], 10);
+    const num_marcos = parseInt(header.split(':')[3], 10);
+
 
     const importedData = {
       EstructuraDeMemoria: {
@@ -37,8 +38,10 @@ const ImportFile: React.FC<ImportFileProps> = ({ onImport }) => {
   };
 
   return (
-    <div>
+    <div style={styles.container}>
+      <label htmlFor="textfile">Ingrese en Formato <i>.txt</i> La Memoria</label>
       <input
+      name='textfile'
         type="file"
         accept=".txt"
         onChange={e => {
@@ -50,5 +53,29 @@ const ImportFile: React.FC<ImportFileProps> = ({ onImport }) => {
     </div>
   );
 };
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    border: '1px solid var(--text-color)',
+    borderRadius: '5px',
+    backgroundColor: 'var(--background-body)',
+  },
+  label: {
+    marginBottom: '10px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+  },
+  input: {
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid var(--text-color)',
+  },
+};
+
+
 
 export default ImportFile;

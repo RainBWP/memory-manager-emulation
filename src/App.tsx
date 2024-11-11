@@ -5,6 +5,7 @@ import './interfaces.tsx';
 import ImportFile from './ImportFile.tsx';
 import { useState } from 'react';
 import { EstructuraDeMemoria, MemoriaFisica } from './interfaces.tsx';
+import MemoryForm from './MemoryForm.tsx';
 
 const defaultMemory: EstructuraDeMemoria = {
   tamano_de_pagina: 0,
@@ -46,6 +47,26 @@ function App() {
         <p><b>Cantidad De Marcos: </b>{EstructuraDeMemoriaLocal.cantidad_de_marcos}</p>
         <p><b>Cantidad De Paginas: </b>{EstructuraDeMemoriaLocal.cantidad_de_paginas}</p>
         <h2>Memoria Fisica</h2>
+        <table>
+          <tr>
+                  <th>Num</th>
+                  <th>A</th>
+                  <th>R</th>
+                  <th>M</th>
+                  <th>P</th>
+                  <th>C</th>
+                  <th>Frame</th>
+                  <th>F Decimal</th>
+                  <th>Memoria</th>
+          </tr>
+          {MemoriaFisicaLocal.memoryValues.map((value, index) => (
+            <tr>
+              <th>{index}</th>
+              <MemoryForm key={index} memoryValue={value} memoryEstructure={EstructuraDeMemoriaLocal} />
+            </tr>
+          ))}
+        </table>
+        
       </div>
     </>
   );
