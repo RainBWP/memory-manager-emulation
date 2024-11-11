@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// App.tsx
+import './MemoryManager.tsx';
+import './App.css';
+import './interfaces.tsx';
+import ImportFile from './ImportFile.tsx';
+import { useState } from 'react';
+import { EstructuraDeMemoria, MemoriaFisica } from './interfaces.tsx';
+
+const defaultMemory: EstructuraDeMemoria = {
+  tamano_de_pagina: 0,
+  cantidad_de_marcos: 0,
+  cantidad_de_paginas: 0,
+};
+
+const useStorage = () => {
+  const [EstructuraDeMemoriaLocal, setEstructuraDeMemoria] = useState<EstructuraDeMemoria>(defaultMemory);
+  const [MemoriaFisicaLocal, setMemoriaFisica] = useState<MemoriaFisica>({ memoryValues: [] });
+
+  const set = (data: { EstructuraDeMemoria: EstructuraDeMemoria; MemoriaFisica: MemoriaFisica }) => {
+    setEstructuraDeMemoria(data.EstructuraDeMemoria);
+    setMemoriaFisica(data.MemoriaFisica);
+  };
+
+  return {
+    EstructuraDeMemoriaLocal,
+    MemoriaFisicaLocal,
+    set,
+  };
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { EstructuraDeMemoriaLocal, MemoriaFisicaLocal, set } = useStorage();
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>Traductor de Direccion Fisica a Direccion Virtual</h1>
+        <p>Ingresar una posible Explicacion</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      <ImportFile onImport={set} />
+
+      <div>
+        <h2>Memoria Estructura</h2>
+        <p><b>Tamano De Pagina: </b>{EstructuraDeMemoriaLocal.tamano_de_pagina}</p>
+        <p><b>Cantidad De Marcos: </b>{EstructuraDeMemoriaLocal.cantidad_de_marcos}</p>
+        <p><b>Cantidad De Paginas: </b>{EstructuraDeMemoriaLocal.cantidad_de_paginas}</p>
+        <h2>Memoria Fisica</h2>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
