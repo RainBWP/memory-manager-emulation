@@ -38,7 +38,7 @@ const ImportFile: React.FC<ImportFileProps> = ({ onImport }) => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className='container'>
       <label htmlFor="textfile">Ingrese en Formato <i>.txt</i> La Memoria</label>
       <input
       name='textfile'
@@ -53,29 +53,5 @@ const ImportFile: React.FC<ImportFileProps> = ({ onImport }) => {
     </div>
   );
 };
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    border: '1px solid var(--text-color)',
-    borderRadius: '5px',
-    backgroundColor: 'var(--background-body)',
-  },
-  label: {
-    marginBottom: '10px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-  },
-  input: {
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid var(--text-color)',
-  },
-};
-
-
 
 export default ImportFile;

@@ -25,6 +25,14 @@ export interface ImportFileProps {
     onImport: (data: { EstructuraDeMemoria: EstructuraDeMemoria; MemoriaFisica: MemoriaFisica }) => void;
   }
 
+export interface TraductorProps {
+
+    MemoriaVirtual: number[];
+  
+    EstructuraDeMemoria: EstructuraDeMemoria;
+  
+  }
+
 // interfaces.tsx
 export interface MemoryFormProps {
   memoryValue: number;

@@ -6,6 +6,7 @@ import ImportFile from './ImportFile.tsx';
 import { useState } from 'react';
 import { EstructuraDeMemoria, MemoriaFisica } from './interfaces.tsx';
 import MemoryForm from './MemoryForm.tsx';
+import { TraductorDVaDF } from './Traductor.tsx';
 
 const defaultMemory: EstructuraDeMemoria = {
   tamano_de_pagina: 0,
@@ -40,6 +41,10 @@ function App() {
       </div>
 
       <ImportFile onImport={set} />
+
+      <TraductorDVaDF 
+      MemoriaVirtual={MemoriaFisicaLocal.memoryValues} 
+      EstructuraDeMemoria={EstructuraDeMemoriaLocal} />
 
       <div>
         <h2>Memoria Estructura</h2>

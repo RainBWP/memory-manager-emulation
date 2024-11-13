@@ -60,6 +60,16 @@ input {
   transition: background-color 0.2s;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 input:hover {
   background-color: var(--background-buttom-hover);
 }
@@ -100,4 +110,26 @@ table{
   border-collapse: collapse;
   text-align: left;
   border: var(--text-color) 1px solid;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background-color: var(--background-body);
+
+}
+.container label{
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.container input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
 }
