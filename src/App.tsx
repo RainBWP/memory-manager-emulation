@@ -64,12 +64,12 @@ function App() {
                   <th>F Decimal</th>
                   <th>Memoria</th>
           </tr>
-          {MemoriaFisicaLocal.memoryValues.map((value, index) => (
-            <tr>
+            {MemoriaFisicaLocal.memoryValues.slice(0, -1).map((value, index) => (
+            <tr key={index}>
               <th>{index}</th>
-              <MemoryForm key={index} memoryValue={value} memoryEstructure={EstructuraDeMemoriaLocal} />
+              <MemoryForm memoryValue={value} memoryEstructure={EstructuraDeMemoriaLocal} />
             </tr>
-          ))}
+            ))}
         </table>
         
       </div>

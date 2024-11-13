@@ -1,25 +1,31 @@
-import { TraductorProps } from "./interfaces"
-import { useState } from "react"
+import { TraductorProps } from "./interfaces";
+import { useState } from "react";
 import MemoryForm from './MemoryForm.tsx';
 
-const TraductorDVaDF: React.FC<TraductorProps> = (MemoriaVirtual, EstructuraDeMemoria) => {
+const TraductorDVaDF: React.FC<TraductorProps> = ({ MemoriaVirtual, EstructuraDeMemoria }) => {
     const [inputValue, setInputValue] = useState<number | undefined>(undefined);
 
+    const [base10ParteDePagina, setBase10ParteDePagina] = useState<number | undefined>(undefined);
+    const [base10Desplazamiento, setBase10Desplazamiento] = useState<number | undefined>(undefined);
 
-    function changeValues() {
-        if (inputValue === undefined) {
+    const [base10MemoriaFisica, setBase10MemoriaFisica] = useState<number | undefined>(undefined);
+    function changeValues(value: number) {
+        if (value === undefined) {
             return;
         }
-        console.log(
-            EstructuraDeMemoria.cantidad_de_marcos,
-            EstructuraDeMemoria.tamano_de_pagina,
-            EstructuraDeMemoria.cantidad_de_paginas
-        )
-        const inputPage = inputValue >> EstructuraDeMemoria.cantidad_de_marcos;
-        const inputDesplazamiento = inputValue & ((1 << EstructuraDeMemoria.cantidad_de_marcos) - 1);
-        console.log(inputPage, inputDesplazamiento);
+        const temp_page = value >> EstructuraDeMemoria.cantidad_de_marcos;
+        const inputDesplazamiento = value & ((1 << EstructuraDeMemoria.cantidad_de_marcos) - 1);
+        console.log("Cambio de Valores", temp_page, inputDesplazamiento, value);
+
+
+        setBase10ParteDePagina(temp_page);
+        setBase10Desplazamiento(inputDesplazamiento);
+
+        const temp_DireccionFisica = MemoriaVirtual[temp_page]+inputDesplazamiento;
+        setBase10MemoriaFisica(temp_DireccionFisica);
+
     }
-    
+
     return (
         <div className="container">
             <h2>Direccion Virtual a Fisica</h2>
@@ -30,24 +36,41 @@ const TraductorDVaDF: React.FC<TraductorProps> = (MemoriaVirtual, EstructuraDeMe
                 min={0} 
                 value={inputValue}
                 onChange={(e) => {
-                    setInputValue(Number(e.target.value));
-                    changeValues();
+                    const value = Number(e.target.value);
+                    setInputValue(value);
+                    changeValues(value);
                 }}
             />
+
+            <h3>Valores</h3>
+            <p>{inputValue?.toString(2)}</p>
+            <p>{Math.log2(EstructuraDeMemoria.cantidad_de_marcos)}</p>
             
             <h2>Valor de la Memoria Fisica</h2>
             <table>
-                <tr>
-                    <MemoryForm 
-                        memoryValue={inputValue ?? 0}
-                        memoryEstructure={EstructuraDeMemoria}
-                    />
-                </tr>
+                <thead>
+                    <tr>
+                        <th>A</th>
+                        <th>R</th>
+                        <th>M</th>
+                        <th>P</th>
+                        <th>C</th>
+                        <th>Frame</th>
+                        <th>F Decimal</th>
+                        <th>Memoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <MemoryForm 
+                            memoryValue={base10MemoriaFisica ?? 0}
+                            memoryEstructure={EstructuraDeMemoria ?? {tamano_de_pagina: 0, cantidad_de_marcos: 0, cantidad_de_paginas: 0}}
+                        />
+                    </tr>
+                </tbody>
             </table>
-            
         </div>
-    )
-    
+    );
 }
 
-export { TraductorDVaDF }
+export { TraductorDVaDF };
