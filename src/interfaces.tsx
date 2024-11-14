@@ -29,7 +29,6 @@ export interface ImportFileProps {
 export interface TraductorProps {
 
     MemoriaVirtual: number[];
-  
     EstructuraDeMemoria: EstructuraDeMemoria;
   
   }
