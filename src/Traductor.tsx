@@ -14,14 +14,16 @@ const TraductorDVaDF: React.FC<TraductorProps> = ({ MemoriaVirtual, EstructuraDe
             return;
         }
         const temp_page = value >> EstructuraDeMemoria.cantidad_de_marcos;
+        // quitar bytes de referencias
+        const temp_page_special = temp_page & ((1 << (Math.log2(EstructuraDeMemoria.cantidad_de_marcos) - 5)) - 1);
         const inputDesplazamiento = value & ((1 << EstructuraDeMemoria.cantidad_de_marcos) - 1);
         console.log("Cambio de Valores", temp_page, inputDesplazamiento, value);
 
 
-        setBase10ParteDePagina(temp_page);
+        setBase10ParteDePagina(temp_page_special);
         setBase10Desplazamiento(inputDesplazamiento);
 
-        const temp_DireccionFisica = MemoriaVirtual[temp_page]+inputDesplazamiento;
+        const temp_DireccionFisica = MemoriaVirtual[temp_page_special]+inputDesplazamiento;
         setBase10MemoriaFisica(temp_DireccionFisica);
 
     }
