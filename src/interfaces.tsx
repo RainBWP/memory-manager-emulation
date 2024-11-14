@@ -1,7 +1,8 @@
-export interface EstructuraDeMemoria { // Interfaz que define la estructura de la memoria
-    tamano_de_pagina: number;
-    cantidad_de_marcos: number;
-    cantidad_de_paginas: number;
+export interface EstructuraDeMemoria {
+  tamano_de_pagina: number,
+  tamano_de_virtual: number,
+  tamano_de_fisica: number,
+  numero_de_paginas: number,
 }
 
 export interface MemoriaVirtual { // Datos de la memoria virtual
