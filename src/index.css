@@ -7,7 +7,7 @@
 :root {
   --background-body: #f5f5f5;
   --text-color: #222;
-  --background-buttom: #9c9c9c;
+  --background-buttom: #e4e4e4;
   --background-buttom-hover: #e1e1e1;
   --background-buttom-active: #d4d4d4;
   --highlight-color: #b2ac00;
@@ -25,6 +25,10 @@
       --highlight-color: #fff700;
       --text-color-disable: #5b5b5b;
   }
+}
+
+code, pre, tt {
+  font-size: large;
 }
 
 body {
@@ -58,6 +62,8 @@ input {
   border-radius: 0.25rem;
   color: var(--text-color);
   transition: background-color 0.2s;
+  font-family: monospace;
+  font-size: large;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -85,7 +91,7 @@ input:disabled {
   cursor: not-allowed;
 }
 
-header, main, footer, div {
+header, main, footer, div,h2 {
   padding: 20px 0 20px 0;
 }
 
@@ -110,6 +116,8 @@ table{
   border-collapse: collapse;
   text-align: left;
   border: var(--text-color) 1px solid;
+  font-family: monospace;
+  font-size: large;
 }
 
 .container {
@@ -120,6 +128,7 @@ table{
   border: 1px solid var(--text-color);
   border-radius: 5px;
   background-color: var(--background-body);
+  margin: 20px 0;
 
 }
 .container label{
