@@ -21,20 +21,22 @@ const LecturaDeDatos = (props: TraductorProps) => {
         };
     }, [currentPageIndex, pageTable]);
 
-    const onSubmit = () => {
-        if (currentPageIndex >= props.MemoriaVirtual.length) return;
-
-        const currentPage = props.MemoriaVirtual[currentPageIndex];
-        const memoryReader: MemoryReader = {
+    useEffect(() => {
+        const updatedPageTable = props.MemoriaVirtual.map((currentPage, index) => ({
             bit_cache: Boolean((currentPage >> 5) & 1),
             bit_modificado: Boolean((currentPage >> 4) & 1),
             bit_permiso: Boolean((currentPage >> 3) & 1),
             bit_presente_ausente: true, // Initially true when loaded into memory
             bit_referencia: Boolean((currentPage >> 1) & 1),
-            numero_de_frame: currentPageIndex, // Assuming frame number is the index for simplicity
-        };
+            numero_de_frame: index, // Assuming frame number is the index for simplicity
+        }));
+        setPageTable(updatedPageTable);
+    }, [props.MemoriaVirtual]);
 
-        setPageTable([...pageTable, memoryReader]);
+    const onSubmit = () => {
+        if (currentPageIndex >= props.MemoriaVirtual.length) return;
+
+        const currentPage = props.MemoriaVirtual[currentPageIndex];
         setVirtualAddress(currentPage);
         setPhysicalAddress(currentPageIndex * props.EstructuraDeMemoria.tamano_de_pagina);
 
@@ -57,26 +59,7 @@ const LecturaDeDatos = (props: TraductorProps) => {
                 value={proceso}
             />
             <button onClick={onSubmit}>Submit</button>
-
-            <h3>Tabla de Páginas</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Decimal</th>
-                        <th>Hexadecimal</th>
-                        <th>Binario</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pageTable.map((entry, index) => (
-                        <tr key={index}>
-                            <td>{entry.numero_de_frame}</td>
-                            <td>{entry.numero_de_frame.toString(16).toUpperCase()}</td>
-                            <td>{entry.numero_de_frame.toString(2).padStart(8, '0')}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            
 
             <h3>Dirección Virtual</h3>
             <p>Decimal: {formatAddress(virtualAddress).decimal}</p>
