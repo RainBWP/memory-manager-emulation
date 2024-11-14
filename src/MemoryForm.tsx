@@ -21,7 +21,7 @@ const MemoryForm: React.FC<MemoryFormProps> = ({ memoryValue, memoryEstructure }
   };
 
   const stringOfHexa = (number:number) => {
-    return number.toString(16);
+    return number.toString(16).toUpperCase();
   }
 
   return (
