@@ -69,10 +69,16 @@ function App() {
         <table>
           <thead>
             <tr>
-              <th>Page</th>
-              <th>Binario</th>
-              <th>Decimal</th>
-              <th>Hexadecimal</th>
+                  <th>Num</th>
+                  <th>A</th>
+                  <th>R</th>
+                  <th>M</th>
+                  <th>P</th>
+                  <th>C</th>
+                  <th>Frame</th>
+                  <th>F Decimal</th>
+                  <th>Memoria</th>
+                  <th>Hex</th>
             </tr>
           </thead>
           <tbody>
