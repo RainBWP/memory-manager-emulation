@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { EstructuraDeMemoria, MemoriaFisica } from './interfaces.tsx';
 import MemoryForm from './MemoryForm.tsx';
 import LecturaDeDatos from './OrdenamientoDeMemoria.tsx';
+import ExportFile from './ExportFile.tsx';
 
 const convertirAPequenos = (valor: number) => {
   return valor * 1024;
@@ -76,6 +77,8 @@ function App() {
           </tbody>
         </table>
       </div>
+      
+      <ExportFile data={{ EstructuraDeMemoria: EstructuraDeMemoriaLocal, MemoriaFisica: MemoriaFisicaLocal }} />
     </>
   );
 }
