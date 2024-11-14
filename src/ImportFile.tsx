@@ -13,16 +13,15 @@ const ImportFile: React.FC<ImportFileProps> = ({ onImport }) => {
 
     const [header, ...data] = lines;
 
-    const tam_pag = parseInt(header.split(':')[1], 10);
-    const num_pag = parseInt(header.split(':')[2], 10);
-    const num_marcos = parseInt(header.split(':')[3], 10);
+    const [tamano_de_pagina_kb, tamano_de_virtual_kb, tamano_de_fisica_kb, numero_de_paginas] = header.split(' ').map(item => parseInt(item, 10));
 
 
     const importedData = {
       EstructuraDeMemoria: {
-        tamano_de_pagina: tam_pag,
-        cantidad_de_marcos: num_marcos,
-        cantidad_de_paginas: num_pag,
+        tamano_de_pagina: tamano_de_pagina_kb,
+        tamano_de_virtual: tamano_de_virtual_kb,
+        tamano_de_fisica: tamano_de_fisica_kb,
+        numero_de_paginas: numero_de_paginas,
       },
       MemoriaFisica: {
         memoryValues: data.map(item => parseInt(item, 10)),
