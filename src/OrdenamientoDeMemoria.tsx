@@ -7,10 +7,10 @@ interface LecturaDeDatosProps extends TraductorProps {
 
 const LecturaDeDatos = (props: LecturaDeDatosProps) => {
     const [proceso, setProceso] = useState<number>(0);
-    const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
+    const [currentPageIndex, ] = useState<number>(0);
     const [virtualAddress, setVirtualAddress] = useState<number>(0);
     const [physicalAddress, setPhysicalAddress] = useState<number>(0);
-    const [memoryValues, setMemoryValues] = useState<number[]>(props.MemoriaVirtual);
+    const [memoryValues, ] = useState<number[]>(props.MemoriaVirtual);
     const [frameTable, setFrameTable] = useState<number[]>(new Array(props.EstructuraDeMemoria.numero_de_paginas).fill(-1)); // -1 indicates empty frame
     const [lruQueue, setLruQueue] = useState<number[]>([]); // LRU queue to track page usage
 
