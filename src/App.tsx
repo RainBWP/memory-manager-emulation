@@ -41,7 +41,12 @@ function App() {
     <>
       <div>
         <h1>Traductor de Direccion Fisica a Direccion Virtual</h1>
-        <p>Ingresar una posible Explicacion</p>
+        {/* <p>
+        El programa deberá leer el tamaño de página, el tamaño de la memoria virtual, el tamaño de la memoria física, el número de páginas que tiene el proceso y la lista de referencias para un solo proceso. La tabla de páginas se irá construyendo conforme se vayan generando los fallos de página. El direccionamiento será por &#96;bytes&#96;.
+        Una vez leídos los datos, el programa deberá esperar la lectura de cualquier carácter o enter. Cada vez que se lleve a cabo una lectura, el programa leerá el estado de los bits de control <i>(excepto el de presente/ausente)</i> y hará referencia a la siguiente página de la lista de referencias leída. Se deberá desplegar en pantalla los valores de la tabla de páginas <i>(valor en decimal, hexadecimal y binario)</i>, después el valor de la dirección virtual a la que se está haciendo referencia, en &#96;decimal&#96;, &#96;hexadecimal&#96; y &#96;binario&#96;, y el valor de la dirección física, en decimal, hexadecimal y binario.
+        El desplazamiento en cada referencia siempre será <b>cero</b>.
+        </p> */}
+        <a href="https://github.com/RainBWP/memory-manager-emulation/tree/parcial2" target="_blank" rel="noopener noreferrer">GitHub Repositorio</a>
       </div>
 
       <ImportFile onImport={set} />
