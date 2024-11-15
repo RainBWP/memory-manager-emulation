@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { ImportFileProps } from './interfaces';
 
 const ImportFile: React.FC<ImportFileProps> = ({ onImport }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [fileContent, setFileContent] = useState<string | null>(null);
+  const [, setFileContent] = useState<string | null>(null);
 
   const handleFileRead = (event: ProgressEvent<FileReader>) => {
     const content = event.target?.result as string;
