@@ -1,12 +1,18 @@
-import { TraductorProps, MemoryReader } from './interfaces';
+import { TraductorProps } from './interfaces';
 import { useState, useEffect } from 'react';
 
-const LecturaDeDatos = (props: TraductorProps) => {
+interface LecturaDeDatosProps extends TraductorProps {
+    updateMemoriaFisica: (newMemoryValues: number[]) => void;
+}
+
+const LecturaDeDatos = (props: LecturaDeDatosProps) => {
     const [proceso, setProceso] = useState<number>(0);
     const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
-    const [pageTable, setPageTable] = useState<MemoryReader[]>([]);
     const [virtualAddress, setVirtualAddress] = useState<number>(0);
     const [physicalAddress, setPhysicalAddress] = useState<number>(0);
+    const [memoryValues, setMemoryValues] = useState<number[]>(props.MemoriaVirtual);
+    const [frameTable, setFrameTable] = useState<number[]>(new Array(props.EstructuraDeMemoria.numero_de_paginas).fill(-1)); // -1 indicates empty frame
+    const [lruQueue, setLruQueue] = useState<number[]>([]); // LRU queue to track page usage
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
@@ -19,28 +25,79 @@ const LecturaDeDatos = (props: TraductorProps) => {
         return () => {
             window.removeEventListener('keypress', handleKeyPress);
         };
-    }, [currentPageIndex, pageTable]);
+    }, [currentPageIndex, frameTable]);
 
-    useEffect(() => {
-        const updatedPageTable = props.MemoriaVirtual.map((currentPage, index) => ({
-            bit_cache: Boolean((currentPage >> 5) & 1),
-            bit_modificado: Boolean((currentPage >> 4) & 1),
-            bit_permiso: Boolean((currentPage >> 3) & 1),
-            bit_presente_ausente: true, // Initially true when loaded into memory
-            bit_referencia: Boolean((currentPage >> 1) & 1),
-            numero_de_frame: index, // Assuming frame number is the index for simplicity
-        }));
-        setPageTable(updatedPageTable);
-    }, [props.MemoriaVirtual]);
+    const LRU = (pageIndex: number) => {
+        const emptyFrameIndex = frameTable.indexOf(-1);
+
+        if (emptyFrameIndex !== -1) {
+            // Place the page in the empty frame
+            const updatedFrameTable = [...frameTable];
+            updatedFrameTable[emptyFrameIndex] = pageIndex;
+            setFrameTable(updatedFrameTable);
+
+            // Update LRU queue
+            setLruQueue([...lruQueue, pageIndex]);
+        } else {
+            // LRU page replacement
+            const lruPageIndex = lruQueue.shift()!;
+            const frameIndex = frameTable.indexOf(lruPageIndex);
+
+            // Place the new page in the frame
+            const updatedFrameTable = [...frameTable];
+            updatedFrameTable[frameIndex] = pageIndex;
+            setFrameTable(updatedFrameTable);
+
+            // Update LRU queue
+            setLruQueue([...lruQueue, pageIndex]);
+        }
+    };
+
+    const emulateMemoryUsage = (virtualAddress: number) => { 
+        const pageSize = props.EstructuraDeMemoria.tamano_de_pagina;
+        const virtualPageNumber = Math.floor(virtualAddress / pageSize);
+        const offset = virtualAddress % pageSize;
+
+        console.log('Virtual Page Number:', virtualPageNumber);
+        console.log('Offset:', offset);
+
+        // Check if the page is in memory
+        if (frameTable[virtualPageNumber] === -1) {
+            // Page fault
+            console.log('Page fault');
+            LRU(virtualPageNumber);
+        } else {
+            // Page hit
+            console.log('Page hit');
+        }
+
+        // Calculate the physical address
+        const physicalAddress = frameTable[virtualPageNumber] * pageSize + offset;
+        console.log('Physical Address:', physicalAddress);
+
+        setVirtualAddress(virtualAddress);
+        setPhysicalAddress(physicalAddress);
+
+        // Update the memory in App
+        props.updateMemoriaFisica(memoryValues);
+
+        // Display the values
+        console.log('Page Table Values:');
+        frameTable.forEach((frame, index) => {
+            console.log(`Page ${index}: Decimal: ${frame}, Hexadecimal: ${frame.toString(16).toUpperCase()}, Binario: ${frame.toString(2).padStart(8, '0')}`);
+        });
+        console.log(`Virtual Address: Decimal: ${virtualAddress}, Hexadecimal: ${virtualAddress.toString(16).toUpperCase()}, Binario: ${virtualAddress.toString(2).padStart(8, '0')}`);
+        console.log(`Physical Address: Decimal: ${physicalAddress}, Hexadecimal: ${physicalAddress.toString(16).toUpperCase()}, Binario: ${physicalAddress.toString(2).padStart(8, '0')}`);
+    };
 
     const onSubmit = () => {
-        if (currentPageIndex >= props.MemoriaVirtual.length) return;
+        console.log('Proceso:', proceso);
+        // Example of translating an address
+        emulateMemoryUsage(virtualAddress);
 
-        const currentPage = props.MemoriaVirtual[currentPageIndex];
-        setVirtualAddress(currentPage);
-        setPhysicalAddress(currentPageIndex * props.EstructuraDeMemoria.tamano_de_pagina);
 
-        setCurrentPageIndex(currentPageIndex + 1);
+        setProceso(0);
+        (document.getElementById('proceso_input') as HTMLInputElement).value = '';
     };
 
     const formatAddress = (address: number) => ({
@@ -54,12 +111,12 @@ const LecturaDeDatos = (props: TraductorProps) => {
             <h2>Ingrese un proceso a la lista</h2>
             <input
                 type="number"
+                id="proceso_input"
                 onChange={(e) => setProceso(Number(e.target.value))}
                 min={0}
                 value={proceso}
             />
             <button onClick={onSubmit}>Submit</button>
-            
 
             <h3>Dirección Virtual</h3>
             <p>Decimal: {formatAddress(virtualAddress).decimal}</p>
